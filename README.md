@@ -1,73 +1,108 @@
-# Welcome to your Lovable project
+# Radiamel® - Radiation Protection Website
 
-## Project info
+A professional website for Radiamel®, the world's first natural, melanin-based defense against harmful radiation.
 
-**URL**: https://lovable.dev/projects/866bd674-8b07-43ef-ade8-4f3749d1f37a
+## 🌟 About Radiamel®
 
-## How can I edit this code?
+Radiamel® is derived from rare melanin-rich fungi that thrive inside nuclear reactors, transforming harmful gamma radiation into harmless energy — shielding DNA and supporting cellular health.
 
-There are several ways of editing your application.
+## 🚀 Features
 
-**Use Lovable**
+- **Hero Section**: Compelling introduction with call-to-action buttons
+- **Problem Section**: Radiation exposure sources and current solution failures
+- **Breakthrough Section**: Radiamel® science and delivery methods
+- **Scientific Foundation**: Research from NASA, Einstein College, and Ukrainian microbiologists
+- **Applications**: Medical, Defense, Space, and Consumer use cases
+- **Market Analysis**: $12+ billion market opportunity
+- **Competitive Advantage**: First-to-market natural solution
+- **Investor Relations**: NDA-protected investor portal
+- **About Section**: Founder Nathan Reardon's profile
+- **Contact System**: Functional contact form with email integration
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/866bd674-8b07-43ef-ade8-4f3749d1f37a) and start prompting.
+## 🛠️ Technology Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Routing**: React Router
+- **Icons**: Lucide React
+- **Email Integration**: Contact form with mailto functionality
 
-**Use your preferred IDE**
+## 📦 Installation & Setup
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```bash
+# Clone the repository
+git clone https://github.com/TalhQazi/Radiamel.git
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# Navigate to project directory
+cd Radiamel
 
-Follow these steps:
+# Install dependencies
+npm install
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🌐 Deployment
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The website is deployed on Vercel at: `radiamel.vercel.app`
 
-**Use GitHub Codespaces**
+## 📁 Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+├── components/          # React components
+│   ├── HeroSection.tsx
+│   ├── ProblemSection.tsx
+│   ├── BreakthroughSection.tsx
+│   ├── ScientificSection.tsx
+│   ├── ApplicationsSection.tsx
+│   ├── MarketSection.tsx
+│   ├── CompetitiveSection.tsx
+│   ├── InvestorSection.tsx
+│   ├── AboutSection.tsx
+│   ├── ContactSection.tsx
+│   ├── ContactForm.tsx
+│   ├── NDALogin.tsx
+│   └── FDADisclaimer.tsx
+├── pages/              # Page components
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+└── ui/                 # shadcn/ui components
+```
 
-## What technologies are used for this project?
+## 🎯 Key Sections
 
-This project is built with:
+1. **Hero**: "Radiation is Silent. Radiamel® is the Answer."
+2. **Problem**: Medical imaging, EMF, nuclear energy, space travel
+3. **Breakthrough**: Melanin-rich fungi science
+4. **Scientific**: NASA, Einstein College research
+5. **Applications**: Medical, Defense, Space, Consumer
+6. **Market**: $12+ billion opportunity
+7. **Competitive**: Natural vs chemical alternatives
+8. **Investor**: NDA-protected access
+9. **About**: Nathan Reardon, Founder & CEO
+10. **Contact**: Functional contact form
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🔒 Security Features
 
-## How can I deploy this project?
+- **NDA Protection**: Investor login system
+- **Contact Form**: Email integration to Nathan@radiamel.com
+- **FDA Disclaimer**: Legal compliance for health products
+- **Responsive Design**: Mobile-friendly interface
 
-Simply open [Lovable](https://lovable.dev/projects/866bd674-8b07-43ef-ade8-4f3749d1f37a) and click on Share -> Publish.
+## 📧 Contact
 
-## Can I connect a custom domain to my Lovable project?
+- **Email**: Nathan@radiamel.com
+- **Website**: radiamel.vercel.app
+- **Founder**: Nathan Reardon
 
-Yes, you can!
+## 📄 License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+This project is proprietary and confidential. All rights reserved.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+
+**Radiamel® - Protecting humanity from radiation with nature's own defense system.**
