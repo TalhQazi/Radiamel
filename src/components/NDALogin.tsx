@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Lock, FileText } from "lucide-react";
+import { isAuthenticated, login } from "@/lib/auth";
+import { useNavigate } from "react-router-dom";
 
 const NDALogin = () => {
   const [formData, setFormData] = useState({
@@ -11,25 +13,50 @@ const NDALogin = () => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/investor-deck", { replace: true });
+    } else {
+      setIsCheckingSession(false);
+    }
+  }, [navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login process
+
     setTimeout(() => {
+      const res = login(formData.email.trim(), formData.password);
       setIsLoading(false);
-      alert("NDA Login functionality will be implemented with proper authentication system.");
-    }, 2000);
+      if (res.ok === false) {
+        alert(res.error);
+        return;
+      }
+      navigate("/investor-deck", { replace: true });
+    }, 600);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
+
+  if (isCheckingSession) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-blue-900/20 to-blue-800/10 flex items-center justify-center p-6">
+        <div className="text-blue-200 flex items-center">
+          <div className="w-5 h-5 mr-3 border-2 border-blue-400/40 border-t-cyan-400 rounded-full animate-spin" />
+          Checking session...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900/20 to-blue-800/10 flex items-center justify-center p-6">
@@ -46,7 +73,7 @@ const NDALogin = () => {
             NDA-Protected Investor Access
           </CardTitle>
         </CardHeader>
-        
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -64,7 +91,7 @@ const NDALogin = () => {
                 placeholder="investor@example.com"
               />
             </div>
-            
+
             <div>
               <Label htmlFor="password" className="text-blue-200">
                 Password
@@ -80,7 +107,7 @@ const NDALogin = () => {
                 placeholder="Enter your password"
               />
             </div>
-            
+
             <Button
               type="submit"
               disabled={isLoading}
@@ -99,7 +126,13 @@ const NDALogin = () => {
               )}
             </Button>
           </form>
-          
+          <div className="mt-4 text-center text-blue-300 text-sm">
+            Don't have an account?{" "}
+            <a className="underline" href="/signup">
+              Create one
+            </a>
+          </div>
+
           <div className="mt-6 p-4 bg-blue-800/20 rounded-lg">
             <div className="flex items-center mb-2">
               <FileText className="w-4 h-4 text-blue-300 mr-2" />

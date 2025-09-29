@@ -45,27 +45,40 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
     setSubmitStatus("idle");
 
     try {
-      // For now, use simple mailto approach
-      // Later can be upgraded to EmailJS
-      const subject = encodeURIComponent(formData.subject);
-      const body = encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      );
-      
-      // Open email client with pre-filled content
-      window.location.href = `mailto:Nathan@radiamel.com?subject=${subject}&body=${body}`;
-      
+      // Use EmailJS if configured; fallback to mailto
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      if (serviceId && templateId && publicKey) {
+        const templateParams = {
+          to_email: "Nathan@radiamel.com",
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        } as Record<string, string>;
+
+        // dynamic import to avoid bundling if unused
+        const { default: emailjs } = await import("@emailjs/browser");
+        await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      } else {
+        const subject = encodeURIComponent(formData.subject);
+        const body = encodeURIComponent(
+          `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+        );
+        window.location.href = `mailto:Nathan@radiamel.com?subject=${subject}&body=${body}`;
+      }
+
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
-      
-      // Close form after 2 seconds
+
       setTimeout(() => {
         onClose();
         setSubmitStatus("idle");
       }, 2000);
-      
     } catch (error) {
-      console.error("Error opening email client:", error);
+      console.error("Error sending message:", error);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -100,7 +113,10 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-blue-200 flex items-center">
+                    <Label
+                      htmlFor="name"
+                      className="text-blue-200 flex items-center"
+                    >
                       <User className="w-4 h-4 mr-1" />
                       Full Name *
                     </Label>
@@ -115,7 +131,10 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-blue-200 flex items-center">
+                    <Label
+                      htmlFor="email"
+                      className="text-blue-200 flex items-center"
+                    >
                       <Mail className="w-4 h-4 mr-1" />
                       Email Address *
                     </Label>

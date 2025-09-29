@@ -42,17 +42,16 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 text-center">
-        {/* Logo/Brand */}
-        <div className="flex items-center justify-center mb-8">
-          <img
-            src="/brand/logo2-radiamel.png"
-            alt="Radiamel Logo"
-            className="w-20 h-20 rounded-full object-contain border-4 border-white/20 shadow-lg bg-white/10 p-2"
-          />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent ml-6">
-            Radiamel®
-          </h1>
+      <div className="relative z-10 container mx-auto px-6 pt-10 md:pt-14 text-center">
+        {/* Logo alone at top, centered */}
+        <div className="flex items-center justify-center mb-10">
+          <div className="w-36 h-36 md:h-50 rounded-full overflow-hidden  shadow-lg bg-white/10 flex items-center justify-center translate-x-8 md:translate-x-8">
+            <img
+              src="/brand/logo2-radiamel.png"
+              alt="Radiamel Logo"
+              className="w-full h-full object-cover block"
+            />
+          </div>
         </div>
 
         {/* Main Headline */}

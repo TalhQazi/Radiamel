@@ -17,7 +17,7 @@ Radiamel® is derived from rare melanin-rich fungi that thrive inside nuclear re
 - **Competitive Advantage**: First-to-market natural solution
 - **Investor Relations**: NDA-protected investor portal
 - **About Section**: Founder Nathan Reardon's profile
-- **Contact System**: Functional contact form with email integration
+- **Contact System**: Functional contact form with EmailJS + mailto fallback
 
 ## 🛠️ Technology Stack
 
@@ -45,9 +45,17 @@ npm install
 npm run dev
 ```
 
-## 🌐 Deployment
+## 📧 EmailJS Configuration (Optional)
 
-The website is deployed on Vercel at: `radiamel.vercel.app`
+Create a `.env` file in the project root with:
+
+```
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+If these are not set, the form will fallback to `mailto:talha.nizami01@gmail.com`.
 
 ## 📁 Project Structure
 
@@ -89,13 +97,13 @@ src/
 ## 🔒 Security Features
 
 - **NDA Protection**: Investor login system
-- **Contact Form**: Email integration to Nathan@radiamel.com
+- **Contact Form**: Email integration to talha.nizami01@gmail.com
 - **FDA Disclaimer**: Legal compliance for health products
 - **Responsive Design**: Mobile-friendly interface
 
 ## 📧 Contact
 
-- **Email**: Nathan@radiamel.com
+- **Email**: talha.nizami01@gmail.com
 - **Website**: radiamel.vercel.app
 - **Founder**: Nathan Reardon
 
