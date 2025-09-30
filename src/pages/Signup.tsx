@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { register } from "@/lib/auth";
+import { register, login } from "@/lib/auth";
 
 const Signup = () => {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
@@ -15,19 +15,23 @@ const Signup = () => {
     setFormData((p) => ({ ...p, [name]: value }));
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    setTimeout(() => {
-      const res = register(formData.email.trim(), formData.password, formData.name.trim());
+    const res = await register(formData.email.trim(), formData.password, formData.name.trim());
+    if (!res.ok) {
       setIsLoading(false);
-      if (!res.ok) {
-        setError(res.error);
-        return;
-      }
-      window.location.href = "/investor-deck";
-    }, 600);
+      setError(res.error);
+      return;
+    }
+    const resLogin = await login(formData.email.trim(), formData.password);
+    setIsLoading(false);
+    if (!resLogin.ok) {
+      setError("login_failed");
+      return;
+    }
+    window.location.href = "/investor-deck";
   };
 
   return (

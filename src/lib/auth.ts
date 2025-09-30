@@ -1,88 +1,64 @@
-export type AuthUser = {
+import { api } from "./api";
+
+export type Me = {
   id: string;
   email: string;
   name?: string;
-  passwordHash: string; // demo only; do NOT do this in prod
-  createdAt: number;
+  role: "user" | "admin";
+  ndaAccepted: boolean;
 };
 
-const USERS_KEY = "auth_users_v1";
-const TOKEN_KEY = "auth_token_v1";
-
-function readUsers(): AuthUser[] {
-  try {
-    const raw = localStorage.getItem(USERS_KEY);
-    return raw ? (JSON.parse(raw) as AuthUser[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeUsers(users: AuthUser[]) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-function hashPassword(pw: string): string {
-  // demo hash: reverse + length; NOT secure. Replace with real hashing on server in prod
-  return `${pw.split("").reverse().join("")}-${pw.length}`;
-}
-
-export function isAuthenticated(): boolean {
-  return !!localStorage.getItem(TOKEN_KEY);
-}
-
-export function logout(): void {
-  localStorage.removeItem(TOKEN_KEY);
-}
-
-export function register(
+export async function register(
   email: string,
   password: string,
   name?: string
-): { ok: true } | { ok: false; error: string } {
-  const users = readUsers();
-  const exists = users.some(
-    (u) => u.email.toLowerCase() === email.toLowerCase()
-  );
-  if (exists) return { ok: false, error: "User already exists" };
-
-  const user: AuthUser = {
-    id: crypto.randomUUID(),
-    email,
-    name,
-    passwordHash: hashPassword(password),
-    createdAt: Date.now(),
-  };
-
-  users.push(user);
-  writeUsers(users);
-  // auto-login after signup
-  localStorage.setItem(TOKEN_KEY, `demo-${user.id}`);
-  return { ok: true };
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const res = await api.post("/auth/register", { email, password, name });
+    if (res.status === 201) return { ok: true };
+    return { ok: false, error: "unknown_error" };
+  } catch (err: any) {
+    const code = err?.response?.data?.error;
+    if (code === "email_exists") return { ok: false, error: "email_exists" };
+    return { ok: false, error: code || "network_error" };
+  }
 }
 
-export function login(
+export async function login(
   email: string,
   password: string
-): { ok: true } | { ok: false; error: string } {
-  const users = readUsers();
-  const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
-  if (!user) return { ok: false, error: "Invalid credentials" };
-  if (user.passwordHash !== hashPassword(password))
-    return { ok: false, error: "Invalid credentials" };
-  localStorage.setItem(TOKEN_KEY, `demo-${user.id}`);
-  return { ok: true };
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const res = await api.post("/auth/login", { email, password });
+    if (res.status === 200) return { ok: true };
+    return { ok: false, error: "unknown_error" };
+  } catch (err: any) {
+    const code = err?.response?.data?.error;
+    return { ok: false, error: code || "invalid_credentials" };
+  }
 }
 
-export function listUsers(): Pick<
-  AuthUser,
-  "id" | "email" | "name" | "createdAt"
->[] {
-  const users = readUsers();
-  return users.map(({ id, email, name, createdAt }) => ({
-    id,
-    email,
-    name,
-    createdAt,
-  }));
+export async function me(): Promise<Me | null> {
+  try {
+    const res = await api.get("/auth/me");
+    return res.data as Me;
+  } catch {
+    return null;
+  }
 }
+
+export async function logout(): Promise<void> {
+  try {
+    await api.post("/auth/logout");
+  } catch {}
+}
+
+export async function acceptNda(): Promise<{ ok: boolean }> {
+  try {
+    const res = await api.post("/nda/accept", { accepted: true });
+    return { ok: res.status === 200 };
+  } catch {
+    return { ok: false };
+  }
+}
+

@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { listUsers } from "@/lib/auth";
+import { api } from "@/lib/api";
+import { me } from "@/lib/auth";
 
 type Row = { id: string; email: string; name?: string; createdAt: number };
 
@@ -11,11 +12,19 @@ const Admin = () => {
   const [rows, setRows] = useState<Row[]>([]);
 
   useEffect(() => {
-    if (sessionStorage.getItem("admin_ok") !== "1") {
-      navigate("/admin-login", { replace: true });
-      return;
-    }
-    setRows(listUsers());
+    (async () => {
+      const u = await me();
+      if (!u) {
+        navigate("/investor-login", { replace: true });
+        return;
+      }
+      if (u.role !== "admin") {
+        navigate("/", { replace: true });
+        return;
+      }
+      const res = await api.get("/admin/users", { params: { limit: 100 } });
+      setRows(res.data.items ?? []);
+    })();
   }, [navigate]);
 
   const csv = useMemo(() => {
@@ -85,13 +94,7 @@ const Admin = () => {
         </Card>
 
         <div className="flex gap-3">
-          <Button
-            onClick={() => navigate("/admin-login", { replace: true })}
-            variant="outline"
-            className="border-blue-400/40 text-blue-300 hover:bg-blue-400/10"
-          >
-            Lock Admin
-          </Button>
+          <Button onClick={() => navigate("/", { replace: true })} variant="outline" className="border-blue-400/40 text-blue-300 hover:bg-blue-400/10">Back to Home</Button>
           <Button
             onClick={downloadCsv}
             className="bg-cyan-600 hover:bg-cyan-700 text-white"

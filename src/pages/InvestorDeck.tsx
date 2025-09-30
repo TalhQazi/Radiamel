@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FileText, Download, LogOut, Shield, Home } from "lucide-react";
-import { isAuthenticated, logout } from "@/lib/auth";
+import { me, logout } from "@/lib/auth";
 import jsPDF from "jspdf";
 
-const VIEW_URL = "/investor/positioning.html";
+import { getApiBaseUrl } from "@/lib/api";
+const VIEW_URL = `${getApiBaseUrl()}/investor/positioning`;
 const ARTICLE_TEXT = `Radiamel® Positioning Statement\n\nProblem:\nThe FDA has now confirmed radioactive cesium-137 contamination in imported foods — first in Indonesian shrimp, now in cloves. Even when blocked at the border, these events expose how fragile and unprotected the global food supply chain is. One mistake, one missed shipment, and contaminated food reaches families.\n\nReality:\nRadioactive isotopes like cesium-137 mimic nutrients such as potassium, lodging themselves deep inside muscle, bone, and organ tissue. Once inside the body, they emit gamma radiation 24/7, raising cancer and organ-damage risks. There is no government system that can guarantee 100% interception of tainted imports.\n\nSolution — Radiamel®:\nRadiamel® is the first defense-grade formula engineered to bind, neutralize, and escort radioactive isotopes like cesium-137 safely out of the body.\n• Binds isotopes before they integrate into tissues.\n• Converts risk into harmless waste that the body excretes naturally.\n• Provides peace of mind in a world where contamination events are not hypothetical — they’re happening right now.\n\nWhy Now:\nThe shrimp and spice recalls are not isolated accidents; they’re signals. Globalization has tied our food supply to unstable regions and poor oversight. Radiamel® exists to close the gap between FDA recalls and true personal safety.\n\nTagline:\nRadiamel® — Your Shield Against Invisible Radiation.`;
 
 const InvestorDeck = () => {
@@ -14,16 +15,23 @@ const InvestorDeck = () => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/investor-login", { replace: true });
-    } else {
+    me().then((u) => {
+      if (!u) {
+        navigate("/investor-login", { replace: true });
+        return;
+      }
+      if (!u.ndaAccepted) {
+        navigate("/nda", { replace: true });
+        return;
+      }
       setReady(true);
-    }
+    });
   }, [navigate]);
 
   const handleLogout = () => {
-    logout();
-    navigate("/investor-login", { replace: true });
+    logout().finally(() => {
+      navigate("/investor-login", { replace: true });
+    });
   };
 
   const handleDownloadPdf = () => {

@@ -10,6 +10,7 @@ import InvestorDeck from "./pages/InvestorDeck";
 import Signup from "./pages/Signup";
 import AdminLogin from "./pages/AdminLogin";
 import Admin from "./pages/Admin";
+import NDAAccept from "./pages/NDAAccept";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/investor-login" element={<NDALogin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/investor-deck" element={<InvestorDeck />} />
+          <Route path="/nda" element={<NDAAccept />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

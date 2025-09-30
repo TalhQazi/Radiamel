@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Lock, FileText } from "lucide-react";
-import { isAuthenticated, login } from "@/lib/auth";
+import { login, me } from "@/lib/auth";
 import { useNavigate } from "react-router-dom";
 
 const NDALogin = () => {
@@ -17,26 +17,28 @@ const NDALogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated()) {
-      navigate("/investor-deck", { replace: true });
-    } else {
-      setIsCheckingSession(false);
-    }
+    me().then((u) => {
+      if (u) {
+        navigate("/investor-deck", { replace: true });
+      } else {
+        setIsCheckingSession(false);
+      }
+    });
   }, [navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    setTimeout(() => {
-      const res = login(formData.email.trim(), formData.password);
+    (async () => {
+      const res = await login(formData.email.trim(), formData.password);
       setIsLoading(false);
       if (res.ok === false) {
         alert(res.error);
         return;
       }
       navigate("/investor-deck", { replace: true });
-    }, 600);
+    })();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
