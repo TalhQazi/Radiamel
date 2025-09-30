@@ -45,11 +45,11 @@ const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-6 pt-10 md:pt-14 text-center">
         {/* Logo alone at top, centered */}
         <div className="flex items-center justify-center mb-10">
-          <div className="w-44 h-44 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-lg bg-white/10 flex items-center justify-center">
+          <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg bg-white/10 flex items-center justify-center">
             <img
               src="/brand/logo2-radiamel.png"
               alt="Radiamel Logo"
-              className="w-full h-full object-cover block"
+              className="w-full h-full object-cover rounded-full ml-5"
             />
           </div>
         </div>
