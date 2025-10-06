@@ -15,7 +15,7 @@ const Admin = () => {
     (async () => {
       const u = await me();
       if (!u) {
-        navigate("/investor-login", { replace: true });
+        navigate("/admin-login", { replace: true });
         return;
       }
       if (u.role !== "admin") {

@@ -1,4 +1,4 @@
-import { Shield, Zap, Dna, Pill, Syringe } from "lucide-react";
+import { Shield, Zap, Pill, Syringe } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -11,13 +11,8 @@ const BreakthroughSection = () => {
     },
     {
       icon: Zap,
-      title: "Converts it into harmless energy",
-      description: "Transforms radiation into usable cellular energy",
-    },
-    {
-      icon: Dna,
-      title: "Protects DNA from damage",
-      description: "Shields genetic material from radiation-induced mutations",
+      title: "Transforms radiation into usable cellular energy",
+      description: "",
     },
   ];
 
@@ -72,10 +67,10 @@ const BreakthroughSection = () => {
                 </div>
               </div>
               <p className="text-blue-200 leading-relaxed mb-6">
-                Radiamel® is extracted from melanin-rich, radiotrophic fungi that
-                naturally thrive in high-radiation environments. These remarkable
-                organisms have evolved over millions of years to not just survive,
-                but actually benefit from radiation exposure.
+                Radiamel® is extracted from melanin-rich, radiotrophic fungi that God
+                designed to naturally thrive in high-radiation environments. These unique
+                organisms were created with the remarkable ability not only to survive
+                radiation exposure, but to actually use it for energy and growth.
               </p>
               <div className="grid md:grid-cols-3 gap-6">
                 {benefits.map((benefit, index) => (
